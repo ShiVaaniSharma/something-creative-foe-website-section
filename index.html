@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Website</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Satisfy&display=swap" rel="stylesheet">
+    <!-- Optional: Font Awesome for an icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to My Site!</h1>
+        <p>This is some main content of the page.</p>
+    </header>
+
+    <main>
+        <p>More content here...</p>
+        <p>And even more...</p>
+    </main>
+
+    <!-- Daily Nugget Widget -->
+    <div class="daily-nugget-widget">
+        <div class="nugget-header">
+            <h3>Daily Nugget ✨</h3>
+            <button id="refreshNuggetBtn" aria-label="Get new nugget">
+                <i class="fas fa-sync-alt"></i> <!-- Font Awesome refresh icon -->
+            </button>
+        </div>
+        <div class="nugget-content">
+            <p id="nuggetText">Loading nugget...</p>
+            <span id="nuggetAuthor" class="nugget-author"></span>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 My Awesome Website</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

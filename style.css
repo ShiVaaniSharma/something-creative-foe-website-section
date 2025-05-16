@@ -1,0 +1,101 @@
+/* Basic page styling (for demo context) */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header, main, footer {
+    padding: 15px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+main {
+    flex-grow: 1;
+}
+
+/* Daily Nugget Widget Styles */
+.daily-nugget-widget {
+    position: fixed; /* Or 'absolute' if you want it relative to a specific container */
+    bottom: 20px;
+    right: 20px;
+    width: 280px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    font-family: 'Poppins', sans-serif;
+    z-index: 1000;
+    transition: transform 0.3s ease-out;
+}
+
+.daily-nugget-widget:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+}
+
+.nugget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 8px;
+}
+
+.nugget-header h3 {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+#refreshNuggetBtn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s ease;
+}
+
+#refreshNuggetBtn:hover {
+    transform: rotate(90deg);
+}
+
+#refreshNuggetBtn:active {
+    transform: rotate(180deg) scale(0.9);
+}
+
+.nugget-content p {
+    font-size: 0.9em;
+    margin: 0 0 8px 0;
+    min-height: 40px; /* Ensure consistent height during text change */
+    transition: opacity 0.3s ease-in-out;
+}
+
+.nugget-author {
+    display: block;
+    font-family: 'Satisfy', cursive; /* A nice handwriting font for the author */
+    font-size: 0.9em;
+    text-align: right;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* Animation for text change */
+.nugget-content .fade-out {
+    opacity: 0;
+}
+.nugget-content .fade-in {
+    opacity: 1;
+}
