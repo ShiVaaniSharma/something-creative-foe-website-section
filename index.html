@@ -1,43 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Awesome Website</title>
+    <title>ColorVerse - Gradient Tool</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Satisfy&display=swap" rel="stylesheet">
-    <!-- Optional: Font Awesome for an icon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="app-layout">
+        <aside class="side-header">
+            <div class="side-header-content">
+                <h1 class="brand-title">
+                    <span>COLOR</span>
+                    <span>VERSE</span>
+                </h1>
+                <p class="brand-tagline">Discover Your Vibe</p>
+            </div>
+            <div class="footer-credit">
+                © <span id="currentYear"></span> <span>ColorVerse</span>
+            </div>
+        </aside>
 
-    <header>
-        <h1>Welcome to My Site!</h1>
-        <p>This is some main content of the page.</p>
-    </header>
+        <main class="tool-area">
+            <div class="gradient-discovery-tool">
+                <div class="gradient-preview-area" id="gradientPreviewArea">
+                    <!-- HTML comments like this are fine for your own notes -->
+                </div>
 
-    <main>
-        <p>More content here...</p>
-        <p>And even more...</p>
-    </main>
+                <div class="controls-and-code">
+                    <div class="color-info-display">
+                        <div class="color-chip" id="colorChip1">
+                            <span id="color1Hex" class="hex-code">#RRGGBB</span>
+                        </div>
+                        <span class="plus-icon">↔</span>
+                        <div class="color-chip" id="colorChip2">
+                            <span id="color2Hex" class="hex-code">#RRGGBB</span>
+                        </div>
+                    </div>
 
-    <!-- Daily Nugget Widget -->
-    <div class="daily-nugget-widget">
-        <div class="nugget-header">
-            <h3>Daily Nugget ✨</h3>
-            <button id="refreshNuggetBtn" aria-label="Get new nugget">
-                <i class="fas fa-sync-alt"></i> <!-- Font Awesome refresh icon -->
-            </button>
-        </div>
-        <div class="nugget-content">
-            <p id="nuggetText">Loading nugget...</p>
-            <span id="nuggetAuthor" class="nugget-author"></span>
-        </div>
+                    <button id="randomizeGradientBtn" class="action-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="margin-right: 8px;">
+                            <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"></path>
+                        </svg>
+                        Spark New Gradient
+                    </button>
+
+                    <div class="gradient-css-output">
+                        <label for="gradientCssCode">CSS Snippet:</label>
+                        <div class="code-block-wrapper">
+                            <pre><code id="gradientCssCode">background: linear-gradient(...);</code></pre>
+                            <button id="copyCssBtn" class="copy-button" title="Copy CSS to clipboard">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" class="copy-icon-svg">
+                                    <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" class="copied-icon-svg" style="display:none;">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-
-    <footer>
-        <p>© 2023 My Awesome Website</p>
-    </footer>
 
     <script src="script.js"></script>
 </body>
