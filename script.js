@@ -1,62 +1,141 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const nuggetTextElement = document.getElementById('nuggetText');
-    const nuggetAuthorElement = document.getElementById('nuggetAuthor');
-    const refreshButton = document.getElementById('refreshNuggetBtn');
+    const gradientPreviewArea = document.getElementById('gradientPreviewArea');
+    const randomizeBtn = document.getElementById('randomizeGradientBtn');
+    const cssCodeElement = document.getElementById('gradientCssCode');
+    const copyCssBtn = document.getElementById('copyCssBtn');
+    const color1HexElement = document.getElementById('color1Hex');
+    const color2HexElement = document.getElementById('color2Hex');
+    const colorChip1 = document.getElementById('colorChip1');
+    const colorChip2 = document.getElementById('colorChip2');
+    const currentYearElement = document.getElementById('currentYear');
 
-    const nuggets = [
-        { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-        { text: "Strive not to be a success, but rather to be of value.", author: "Albert Einstein" },
-        { text: "The best time to plant a tree was 20 years ago. The second best time is now.", author: "Chinese Proverb" },
-        { text: "Your time is limited, so don’t waste it living someone else’s life.", author: "Steve Jobs" },
-        { text: "The mind is everything. What you think you become.", author: "Buddha" },
-        { text: "An unexamined life is not worth living.", author: "Socrates" },
-        { text: "Eighty percent of success is showing up.", author: "Woody Allen" },
-        { text: "The only source of knowledge is experience.", author: "Albert Einstein" },
-        { text: "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.", author: "Ralph Waldo Emerson"},
-        { text: "Small opportunities are often the beginning of great enterprises.", author: "Demosthenes"},
-        { text: "Tip: Drink a glass of water first thing in the morning to rehydrate.", author: "Health Hack"},
-        { text: "Fact: Honey never spoils. Archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible.", author: "Fun Fact"},
-        { text: "Productivity Tip: Use the Pomodoro Technique (25 min work, 5 min break) to stay focused.", author: "Life Hack"}
+    // Icon SVGs for copy button
+    const copyIconSvg = copyCssBtn.querySelector('.copy-icon-svg');
+    const copiedIconSvg = copyCssBtn.querySelector('.copied-icon-svg');
+
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+
+    let currentColor1 = '#FFFFFF';
+    let currentColor2 = '#000000';
+    let currentAngle = 'to right';
+    const gradientAngles = [
+        'to right', 'to left', 'to bottom', 'to top',
+        'to bottom right', 'to bottom left', 'to top right', 'to top left',
+        '45deg', '90deg', '135deg', '180deg', '225deg', '270deg', '315deg'
     ];
 
-    let lastNuggetIndex = -1; // To ensure the same nugget isn't shown twice in a row
+    function getLuminance(hexColor) {
+        const rgb = parseInt(hexColor.slice(1), 16);
+        const r = (rgb >> 16) & 0xff;
+        const g = (rgb >>  8) & 0xff;
+        const b = (rgb >>  0) & 0xff;
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
 
-    function getRandomNugget() {
-        let randomIndex;
+    function setTextColorBasedOnBackground(hexColor, textElement, chipElement) {
+        const luminance = getLuminance(hexColor);
+        if (luminance > 140) { // Adjusted threshold for better contrast
+            textElement.style.color = '#222222';
+            textElement.style.textShadow = 'none';
+            chipElement.style.borderColor = 'rgba(0,0,0,0.1)'; // Subtle border for light chips
+        } else {
+            textElement.style.color = '#FFFFFF';
+            textElement.style.textShadow = '0 1px 2px rgba(0,0,0,0.4)';
+            chipElement.style.borderColor = 'transparent';
+        }
+    }
+    
+    function generateVibrantHexColor() {
+        const h = Math.floor(Math.random() * 360);
+        const s = Math.floor(Math.random() * 30) + 70; // Saturation: 70-100%
+        const l = Math.floor(Math.random() * 30) + 50; // Lightness: 50-80% (avoid too dark/light)
+        return hslToHex(h, s, l);
+    }
+
+    function hslToHex(h, s, l) {
+        s /= 100;
+        l /= 100;
+        const k = n => (n + h / 30) % 12;
+        const a = s * Math.min(l, 1 - l);
+        const f = n =>
+            l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+        
+        const toHex = x => {
+            const hex = Math.round(x * 255).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+        };
+        return `#${toHex(f(0))}${toHex(f(8))}${toHex(f(4))}`.toUpperCase();
+    }
+
+    function updateGradient() {
+        currentColor1 = generateVibrantHexColor();
+        let attempts = 0;
         do {
-            randomIndex = Math.floor(Math.random() * nuggets.length);
-        } while (randomIndex === lastNuggetIndex && nuggets.length > 1); // Ensure different nugget if possible
-        lastNuggetIndex = randomIndex;
-        return nuggets[randomIndex];
+            currentColor2 = generateVibrantHexColor();
+            attempts++;
+        } while (
+            (Math.abs(getLuminance(currentColor1) - getLuminance(currentColor2)) < 60 || // Luminance diff
+            colorDistance(hexToRgb(currentColor1), hexToRgb(currentColor2)) < 100) && // Color distance
+            attempts < 20
+        );
+
+        currentAngle = gradientAngles[Math.floor(Math.random() * gradientAngles.length)];
+        const gradientCss = `linear-gradient(${currentAngle}, ${currentColor1}, ${currentColor2})`;
+        
+        gradientPreviewArea.style.background = gradientCss;
+        
+        colorChip1.style.backgroundColor = currentColor1;
+        color1HexElement.textContent = currentColor1;
+        setTextColorBasedOnBackground(currentColor1, color1HexElement, colorChip1);
+
+        colorChip2.style.backgroundColor = currentColor2;
+        color2HexElement.textContent = currentColor2;
+        setTextColorBasedOnBackground(currentColor2, color2HexElement, colorChip2);
+        
+        cssCodeElement.textContent = `background: ${gradientCss};`;
     }
 
-    function displayNugget() {
-        const nugget = getRandomNugget();
-
-        // Fade out old text
-        nuggetTextElement.classList.add('fade-out');
-        nuggetAuthorElement.classList.add('fade-out');
-
-        setTimeout(() => {
-            nuggetTextElement.textContent = nugget.text;
-            nuggetAuthorElement.textContent = nugget.author ? `– ${nugget.author}` : "";
-
-            // Fade in new text
-            nuggetTextElement.classList.remove('fade-out');
-            nuggetTextElement.classList.add('fade-in');
-            nuggetAuthorElement.classList.remove('fade-out');
-            nuggetAuthorElement.classList.add('fade-in');
-        }, 300); // Match CSS transition duration
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : {r:0,g:0,b:0}; // Fallback
     }
 
-    if (refreshButton) {
-        refreshButton.addEventListener('click', displayNugget);
+    function colorDistance(rgb1, rgb2) { // Euclidean distance
+        let rDiff = rgb1.r - rgb2.r;
+        let gDiff = rgb1.g - rgb2.g;
+        let bDiff = rgb1.b - rgb2.b;
+        return Math.sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff);
     }
 
-    // Display initial nugget
-    if (nuggetTextElement && nuggetAuthorElement) {
-        displayNugget();
-    } else {
-        console.error("Nugget elements not found!");
+
+    if (randomizeBtn) {
+        randomizeBtn.addEventListener('click', updateGradient);
     }
+
+    if (copyCssBtn) {
+        copyCssBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(cssCodeElement.textContent)
+                .then(() => {
+                    copyIconSvg.style.display = 'none';
+                    copiedIconSvg.style.display = 'inline-block';
+                    copyCssBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyIconSvg.style.display = 'inline-block';
+                        copiedIconSvg.style.display = 'none';
+                        copyCssBtn.classList.remove('copied');
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy CSS: ', err);
+                    alert('Failed to copy CSS. Please copy manually.');
+                });
+        });
+    }
+    updateGradient();
 });
