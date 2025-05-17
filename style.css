@@ -1,101 +1,347 @@
-/* Basic page styling (for demo context) */
-body {
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
+:root {
+    /* --- Header Text Color --- */
+    --header-title-color: #ffffff;    /* Bright White for main title */
+    --header-tagline-color: #f0f0f0; /* Brighter, almost pure white for tagline */ 
+    
+    /* --- Existing Colors (can be adjusted if desired) --- */
+    --primary-accent: #ff6b6b; /* Coral red - used for buttons/tool accents */
+    --secondary-accent: #4ecdc4; /* Tealish - used for buttons/tool accents */
+    --header-bg: #1a1a2e; /* Dark blue/purple - for side header background */
+    
+    --tool-bg: #f4f7f6;
+    --surface-color: #ffffff;
+    --text-color-dark: #1f2937;
+    --text-color-light: #e0e0e0; /* General light text, not for header title */
+    --border-color: #d1d5db;
+    --code-bg-color: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+
+    --font-display: 'Anton', sans-serif;
+    --font-primary: 'Poppins', sans-serif;
+    --font-code: 'Roboto Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    padding: 0;
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    font-family: var(--font-primary);
+    background-color: var(--tool-bg);
+}
+
+.app-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* Side Header (Vertical) */
+.side-header {
+    width: 100px; /* Adjust as needed for "COLORVERSE" */
+    height: 100%;
+    background-color: var(--header-bg);
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-}
-
-header, main, footer {
-    padding: 15px;
-    background-color: #fff;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-main {
-    flex-grow: 1;
-}
-
-/* Daily Nugget Widget Styles */
-.daily-nugget-widget {
-    position: fixed; /* Or 'absolute' if you want it relative to a specific container */
-    bottom: 20px;
-    right: 20px;
-    width: 280px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    font-family: 'Poppins', sans-serif;
-    z-index: 1000;
-    transition: transform 0.3s ease-out;
-}
-
-.daily-nugget-widget:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-}
-
-.nugget-header {
-    display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    padding-bottom: 8px;
+    padding: 20px 0;
+    position: relative;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.15);
+    z-index: 10;
+    overflow: hidden;
 }
 
-.nugget-header h3 {
-    margin: 0;
-    font-size: 1.1em;
+.side-header-content {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+.brand-title {
+    font-family: var(--font-display);
+    /* --- ADJUST FONT SIZE AND SPACING TO FIT "COLORVERSE" --- */
+    font-size: 3.0em; /* START HERE: Adjust this value down until text fits */
+    letter-spacing: 4px; /* START HERE: Adjust this value down if needed */
+    line-height: 1;
+    margin-bottom: 25px;
+    
+    color: var(--header-title-color); /* Solid White */
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+
+    display: flex;
+    flex-direction: column; /* Stacks "COLOR" and "VERSE" */
+}
+.brand-title span {
+    display: block;
+}
+
+.brand-tagline {
+    font-family: var(--font-primary);
+    /* --- ADJUST FONT SIZE AND SPACING TO FIT --- */
+    font-size: 0.9em; /* START HERE: Adjust if needed */
+    letter-spacing: 2.5px; /* Increased spacing for clarity */
+    font-weight: 400; /* Slightly bolder for better visibility */
+    color: var(--header-tagline-color); /* Using the brighter variable */
+    text-transform: uppercase;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6); /* Sharper, darker shadow */
+}
+
+.footer-credit {
+    position: absolute;
+    bottom: 15px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 0.7em;
+    color: rgba(255,255,255,0.55); /* Adjusted opacity */
+    letter-spacing: 1.5px;
+    font-family: var(--font-primary);
+}
+.footer-credit span { /* For the "ColorVerse" name in footer */
+    font-weight: 500; /* Normal weight for the name */
+    color: rgba(255,255,255,0.7);
+}
+
+
+/* Tool Area */
+.tool-area {
+    flex-grow: 1;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--tool-bg);
+    overflow-y: auto; 
+}
+
+.gradient-discovery-tool {
+    background-color: var(--surface-color);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px var(--shadow-color);
+    padding: 25px;
+    width: 100%;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-height: calc(100vh - 60px);
+}
+
+.gradient-preview-area {
+    width: 100%;
+    min-height: 250px;
+    flex-grow: 1;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: background 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.controls-and-code {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.color-info-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.color-chip {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-family: var(--font-code);
+    font-size: 0.95em;
+    font-weight: 500;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    min-width: 110px;
+    text-align: center;
+    transition: background-color 0.5s ease, color 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.plus-icon {
+    font-size: 1.8em;
+    color: var(--text-color-dark);
+    font-weight: 300;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(45deg, var(--primary-accent), var(--secondary-accent));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.action-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.gradient-css-output {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.gradient-css-output label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    color: #555;
     font-weight: 600;
 }
-
-#refreshNuggetBtn {
-    background: none;
+.code-block-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--code-bg-color);
+    border: 1px solid #d1d9e1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.code-block-wrapper pre {
+    margin: 0;
+    flex-grow: 1;
+    padding: 10px 12px;
+    overflow-x: auto;
+}
+.code-block-wrapper code {
+    font-family: var(--font-code);
+    font-size: 0.9em;
+    color: var(--text-color-dark);
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+.copy-button {
+    background-color: transparent;
     border: none;
-    color: white;
-    font-size: 1.1em;
+    color: #555;
+    padding: 10px 12px;
     cursor: pointer;
-    padding: 5px;
-    transition: transform 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-left: 1px solid #d1d9e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.copy-button:hover {
+    background-color: #e0e0e0;
+    color: var(--primary-accent);
+}
+.copy-button.copied .copy-icon-svg {
+    display: none;
+}
+.copy-button.copied .copied-icon-svg {
+    display: inline-block !important;
+    color: var(--secondary-accent);
+    animation: pop 0.3s ease-out;
 }
 
-#refreshNuggetBtn:hover {
-    transform: rotate(90deg);
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
 }
 
-#refreshNuggetBtn:active {
-    transform: rotate(180deg) scale(0.9);
+/* Responsive adjustments */
+@media (max-height: 750px) {
+    .gradient-preview-area {
+        min-height: 220px;
+    }
+    .gradient-discovery-tool {
+        padding: 20px;
+        gap: 20px;
+    }
+    .brand-title {
+        font-size: 2.8em; /* Adjust for "COLORVERSE" */
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+    }
+    .brand-tagline {
+        font-size: 0.85em;
+    }
 }
-
-.nugget-content p {
-    font-size: 0.9em;
-    margin: 0 0 8px 0;
-    min-height: 40px; /* Ensure consistent height during text change */
-    transition: opacity 0.3s ease-in-out;
+@media (max-width: 950px) {
+    .side-header {
+        width: 90px;
+    }
+    .brand-title {
+        font-size: 2.6em; /* Adjust for "COLORVERSE" */
+        letter-spacing: 3px;
+    }
+     .brand-tagline {
+        font-size: 0.8em;
+        letter-spacing: 2px;
+    }
+    .tool-area {
+        padding: 20px;
+    }
 }
-
-.nugget-author {
-    display: block;
-    font-family: 'Satisfy', cursive; /* A nice handwriting font for the author */
-    font-size: 0.9em;
-    text-align: right;
-    opacity: 0.8;
-    margin-top: 5px;
-}
-
-/* Animation for text change */
-.nugget-content .fade-out {
-    opacity: 0;
-}
-.nugget-content .fade-in {
-    opacity: 1;
+@media (max-width: 768px) {
+    .side-header {
+        width: 80px;
+    }
+    .brand-title {
+        font-size: 2.3em; /* Adjust for "COLORVERSE" */
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+    .brand-tagline {
+        font-size: 0.75em;
+        letter-spacing: 1.5px;
+    }
+    .tool-area {
+        padding: 15px;
+    }
+    .gradient-discovery-tool {
+        padding: 20px;
+        gap: 15px;
+        max-width: 100%;
+    }
+    .gradient-preview-area {
+        min-height: 180px;
+    }
+    .color-chip {
+        padding: 8px 10px;
+        font-size: 0.85em;
+        min-width: 90px;
+    }
+    .action-button {
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+    .gradient-css-output label {
+        font-size: 0.8em;
+    }
+    .code-block-wrapper code {
+        font-size: 0.85em;
+    }
 }
